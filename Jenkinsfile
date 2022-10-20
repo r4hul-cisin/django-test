@@ -21,16 +21,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    sh '''
-                        echo "Testing Django application"
-                        docker exec -it django-test python manage.py test
-                    ''' 
-                }
-            }
-        }
         stage('Clean Up') {
             steps {
                 script {
@@ -42,7 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('DeployToProduction') {
+        stage('DeployToStaging') {
             steps {
                 script {
                     sh '''
@@ -50,6 +40,16 @@ pipeline {
                         echo "running at http://localhost:8000"
 
                     '''
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    sh '''
+                        echo "Testing Django application"
+                        docker exec -it django-test python manage.py test
+                    ''' 
                 }
             }
         }
