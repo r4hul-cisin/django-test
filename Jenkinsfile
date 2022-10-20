@@ -26,7 +26,7 @@ pipeline {
                 script {
                     sh '''
                         echo "Testing Django application"
-                        
+                        docker exec -it django-test python manage.py test
                     ''' 
                 }
             }
