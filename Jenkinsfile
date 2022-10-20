@@ -5,8 +5,8 @@ pipeline {
             steps {
                 sh 'Pipeline started'
                 sh '''
+                    echo "$USER"
                     docker images
-                    docker ps -a
                 '''
             }
         }
