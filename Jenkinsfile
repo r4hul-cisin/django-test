@@ -3,12 +3,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Test run"'
+                sh 'Pipeline started'
                 sh '''
-                    echo "Test Multi line shell script"
-                    ls -lah
-                    pwd
-                    whoami
+                    docker images
+                    docker ps -a
                 '''
             }
         }
