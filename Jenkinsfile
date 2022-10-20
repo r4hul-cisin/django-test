@@ -1,14 +1,11 @@
 pipeline {
     agent any
-    environment {
-    FILENAME = readFile '.env'
-  }
     stages {
         stage('Build Docker Image') {
             steps {
                 sh '''
                     echo "Pipeline started"
-                    docker build . -t ${env.dockerhubUsername}/${env.appName}
+                    docker build . -t 4495/django-test
                 '''
             }
         }
@@ -18,7 +15,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
                         sh '''
                             docker login -u 4495 -p ${dockerhubpwd}
-                            docker push ${env.dockerhubUsername}/${env.appName}
+                            docker push 4495/django-test
                         '''
                     }
                 }
@@ -29,7 +26,7 @@ pipeline {
                 script {
                     sh '''
                         echo "Testing Django application"
-
+                        
                     ''' 
                 }
             }
@@ -38,7 +35,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker stop ${env.appName}
+                        docker stop django-test
                         docker system prune -f
 
                     '''
@@ -49,7 +46,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run --name ${env.appName} -p 8000:8000 -d ${env.dockerhubUsername}/${env.appName}
+                        docker run --name django-test -p 8000:8000 -d 4495/django-test
                         echo "running at http://localhost:8000"
 
                     '''
